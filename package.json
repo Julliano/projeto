@@ -1,0 +1,20 @@
+{
+  "name": "node-api-crud",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon"
+  },
+  "dependencies": {
+    "body-parser": "~1.18.1",
+    "express": "~4.15.4",
+    "mongoose": "~4.11.12",
+    "request": "~2.82.0"
+  },
+  "author": "Julliano Volpato",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.17.5"
+  }
+}
