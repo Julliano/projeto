@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Curso = require('./app/models/curso');
 var Aluno = require('./app/models/aluno');
+var Matricula = require('./app/models/matricula');
 mongoose.Promise = global.Promise;
 
 //URI: MLab
@@ -48,6 +49,54 @@ router.get('/', function(req, res) {
 //API's:
 //==============================================================================
 
+
+//Rotas que terminarem com '/matriculas' (servir: GET ALL & POST)
+router.route('/matriculas')
+
+	/* 1) Método: Selecionar Todas as Matriculas (acessar em: GET http://localhost:8000/api/matriculas)  */
+	.get(function(req, res) {
+	    Matricula.find(function(error, matriculas) {
+	        if(error) 
+	            res.send('Erro ao tentar Selecionar Todas as matriculas...: ' + error);
+	
+	        res.json({data:matriculas});
+	    });
+	});
+
+	router.route('/matriculas/add')
+	/* 2) Método: Criar Matricula (acessar em: POST http://localhost:8000/api/matriculas/add)  */
+	.post(function(req, res) {
+		var matricula = new Matricula();
+		
+		//Aqui vamos setar os campos da matricula (via request):
+		matricula.aluno = req.body.aluno;
+		matricula.curso = req.body.curso;
+		
+		matricula.save(function(error) {
+			if(error)
+				res.send('Erro ao tentar salvar a Matricula....: ' + error);
+			
+			res.json({ message: 'Matricula Cadastrado com Sucesso!' });
+		});
+	})
+	
+	
+	//Rotas que irão terminar em '/matriculas/:matricula_id' (servir tanto para: GET, PUT & DELETE: id):
+    router.route('/matriculas/:matricula_id')
+	
+    /* 3) Método: Excluir por Id (acessar: http://localhost:8000/api/matriculas/:matricula_id) */
+        .delete(function(req, res) {
+            
+            Matricula.remove({
+                _id: req.params.matricula_id
+                }, function(error) {
+                    if (error) 
+                        res.send("Id da matricula não encontrado....: " + error);
+
+                    res.json({ message: 'Matricula Excluído com Sucesso!' });
+                });
+            });
+	
 //Rotas que terminarem com '/cursos' (servir: GET ALL & POST)
 router.route('/cursos')
 

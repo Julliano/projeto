@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import axios from 'axios'
+import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap-theme.css';
 
 class App extends Component {
 
 	state = {
 		products: [],
 		alunos: [],
+		matriculas: [],
 		product: {
 			id: null,
 			titulo: 'Teste',
@@ -18,12 +21,17 @@ class App extends Component {
 			nome: 'Ciclano',
 			email: 'Ciclano@gmail.com',
 			nascimento: '25/02/1989'
+		},
+		matricula: {
+			aluno: {},
+			curso: {}
 		}
 	}
 	
 	componentDidMount() {
 		this.getProducts();
 		this.getAlunos();
+		this.getMatriculas();
 	}
 	
 	
@@ -57,6 +65,31 @@ class App extends Component {
 		.catch(err => console.error(err))
 	}
 
+//Funções que relacionadas a alunos
+	getMatriculas = _ => {
+		fetch('http://localhost:8000/api/matriculas')
+		.then(response => response.json())
+		.then(response => this.setState({ matriculas: response.data}))
+		.catch( err => console.error(err))
+	}
+	
+	addMatricula = _ => {
+		const { matricula } = this.state;
+		console.log(matricula)
+		axios.post('http://localhost:8000/api/matriculas/add', {
+			aluno:matricula.aluno, 
+			curso:matricula.curso})
+			.then(this.getMatriculas)
+			.catch(err => console.error(err))
+	}
+	
+	removeMatricula = (id) => {
+		const { product } = this.state;
+		axios.delete('http://localhost:8000/api/matriculas/'+id)
+		.then(this.getMatriculas)
+		.catch(err => console.error(err))
+	}
+	
 //Funções que relacionadas a alunos
 	getAlunos = _ => {
 		fetch('http://localhost:8000/api/alunos')
@@ -93,37 +126,54 @@ class App extends Component {
 	renderProduct = ({_id, titulo, descricao}) => 
 		<div key={_id}>
 			{titulo}, {descricao}
-			<button onClick={() => this.setState({product: {_id, titulo, descricao}})}> Edit </button>
-			<button onClick={() => this.removeProduct(_id)}> Remove </button>
+			<button type="submit" className="btn btn-sm btn-warning" onClick={() => this.setState({product: {_id, titulo, descricao}})}> Edit </button>
+			<button type="submit" className="btn btn-sm btn-danger" onClick={() => this.removeProduct(_id)}> Remove </button>
 		</div>
 
 	renderAluno = ({_id, nome, email, nascimento}) => 
 		<div key={_id}>
 			{nome}, {email}, {nascimento}
-			<button onClick={() => this.setState({aluno: {_id, nome, email, nascimento}})}> Edit </button>
-			<button onClick={() => this.removeAluno(_id)}> Remove </button>
+			<button type="submit" className="btn btn-sm btn-warning" onClick={() => this.setState({aluno: {_id, nome, email, nascimento}})}> Edit </button>
+			<button type="submit" className="btn btn-sm btn-danger" onClick={() => this.removeAluno(_id)}> Remove </button>
+		</div>
+
+	renderMatricula = ({_id, aluno, curso}) => 
+		<div key={_id}>
+			{aluno}, {curso}
+			<button type="submit" className="btn btn-sm btn-danger" onClick={() => this.removeMatricula(_id)}> Remove </button>
 		</div>
 	
 	render() {
-		const {products, alunos, product, aluno} = this.state;
+		const {products, alunos, product, aluno, matricula, matriculas} = this.state;
 	    return (
-	      <div className="App">
-		      <div>
-			      <input ref="titulo" value={product.titulo} 
+	      <div className="App col-md-6">
+	      	<h4> Cadastrar curso: </h4>
+		      <div className="form-group col-md-12 flex">
+			      <input className="form-control col-md-3" ref="titulo" value={product.titulo} 
 			      onChange={e => this.setState({ product: { ...product, titulo: e.target.value }})}/>
-			      <input ref="descricao" value={product.descricao} 
+			      <input className="form-control col-md-3" ref="descricao" value={product.descricao} 
 			      onChange={e => this.setState({ product: { ...product, descricao: e.target.value }})}/>
-			      <button onClick={this.addProduct}> Add Curso </button>
+			      <button type="submit" className="btn btn-primary" onClick={this.addProduct}> Add Curso </button>
 		      </div>
 
-		      <div>
-			      <input ref="nome" value={aluno.nome} 
+		      <h4> Cadastrar aluno: </h4>
+		      <div className="form-group col-md-12 flex">
+			      <input className="form-control col-md-3" ref="nome" value={aluno.nome} 
 			      onChange={e => this.setState({ aluno: { ...aluno, nome: e.target.value }})}/>
-			      <input ref="email" value={aluno.email} 
+			      <input className="form-control col-md-3" ref="email" value={aluno.email} 
 			      onChange={e => this.setState({ aluno: { ...aluno, email: e.target.value }})}/>
-			      <input ref="nascimento" value={aluno.nascimento} 
+			      <input className="form-control col-md-3" ref="nascimento" value={aluno.nascimento} 
 			      onChange={e => this.setState({ aluno: { ...aluno, nascimento: e.target.value }})}/>
-			      <button onClick={this.addAluno}> Add Aluno </button>
+			      <button type="submit" className="btn btn-primary" onClick={this.addAluno}> Add Aluno </button>
+		      </div>
+
+		      <h4> Matricular aluno: </h4>
+		      <div className="form-group col-md-12 flex">
+			      <input className="form-control col-md-3" ref="alunoId" value={matricula.aluno._id} 
+			      onChange={e => this.setState({ matricula: { ...matricula, aluno: e.target.value }})}/>
+			      <input className="form-control col-md-3" ref="cursoId" value={matricula.curso_id} 
+			      onChange={e => this.setState({ matricula: { ...matricula, curso: e.target.value }})}/>
+			      <button type="submit" className="btn btn-primary" onClick={this.addMatricula}> Matricular </button>
 		      </div>
 	      		
 		      <h3> Cursos cadastrados </h3>
@@ -131,6 +181,9 @@ class App extends Component {
 
 		      <h3> Alunos cadastrados </h3>
 		      {alunos.map(this.renderAluno)}
+
+		      <h3> Matriculas realizadas </h3>
+		      {matriculas.map(this.renderMatricula)}
 
 	      	
 	      </div>

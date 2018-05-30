@@ -20,7 +20,8 @@ var Schema = mongoose.Schema;
 
 var CursoSchema = new Schema({
     titulo: String,
-    descricao: String
+    descricao: String,
+    matricula: [{type: Schema.Types.ObjectId, ref:'Matricula'}]
 });
 
 module.exports = mongoose.model('Curso', CursoSchema);

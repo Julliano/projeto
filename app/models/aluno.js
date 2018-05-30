@@ -22,7 +22,8 @@ var Schema = mongoose.Schema;
 var AlunoSchema = new Schema({
     nome: String,
     email: String,
-    nascimento: String
+    nascimento: String,
+    matricula: [{type: Schema.Types.ObjectId, ref:'Matricula'}]
 });
 
 module.exports = mongoose.model('Aluno', AlunoSchema);
