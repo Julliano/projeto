@@ -19,11 +19,11 @@ poder testar cada API criada!
 
   ROTA                    |     HTTP(Verbo)   |      Descrição        | 
 ------------------------- | ----------------- | --------------------- | 
-/api/<model>              |       GET         | Selecionar Todos      | 
-/api/<model>              |       POST        | Criar Produto         | 
-/api/<model>/:><model_id> |       GET         | Selecionar Por Id     | 
-/api/<model>/:><model_id> |       PUT         | Atualizar Por Id      |    
-/api/<model>/:><model_id> |       DELETE      | Excluir Por Id        |
+/api/model                |       GET         | Selecionar Todos      | 
+/api/model                |       POST        | Criar Produto         | 
+/api/model/:model_id      |       GET         | Selecionar Por Id     | 
+/api/model/:model_id      |       PUT         | Atualizar Por Id      |    
+/api/model/:model_id      |       DELETE      | Excluir Por Id        |
 
 ## Executar Localmente
 
