@@ -12,14 +12,14 @@ var Matricula = require('./app/models/matricula');
 mongoose.Promise = global.Promise;
 
 //URI: MLab
-//mongoose.connect('mongodb://jvolpato:julliano123@ds064188.mlab.com:64188/node-crud-api', {
-//    useMongoClient: true
-//});
-
-//Maneira Local: MongoDb:
-mongoose.connect('mongodb://localhost:27017/node-crud-api', {
+mongoose.connect('mongodb://jvolpato:julliano123@ds064188.mlab.com:64188/node-crud-api', {
     useMongoClient: true
 });
+
+//Maneira Local: MongoDb:
+//mongoose.connect('mongodb://localhost:27017/node-crud-api', {
+//    useMongoClient: true
+//});
 
 //Configuração da variável app para usar o 'bodyParser()':
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -282,5 +282,5 @@ router.route('/cursos')
 app.use('/api', router);
 
 //Iniciando a Aplicação (servidor):
-app.listen(process.env.PORT || 8000);
+app.listen(port);
 console.log("Iniciando a app na porta " + port);
