@@ -279,8 +279,8 @@ router.route('/cursos')
 
 
 //Definindo um padrão das rotas prefixadas: '/api':
-app.use('/', router);
+app.use('/api', router);
 
 //Iniciando a Aplicação (servidor):
-app.listen(port);
+app.listen(port || 8000);
 console.log("Iniciando a app na porta " + port);
