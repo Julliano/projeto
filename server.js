@@ -282,5 +282,5 @@ router.route('/cursos')
 app.use('/api', router);
 
 //Iniciando a Aplicação (servidor):
-app.listen(port);
+app.listen(process.env.PORT || 8000);
 console.log("Iniciando a app na porta " + port);
