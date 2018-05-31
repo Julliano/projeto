@@ -28,7 +28,6 @@ app.use(cors())
 
 //Definindo a porta onde será executada a nossa api:
 var port = process.env.port || 8000;
-
 //Rotas da nossa API:
 //=============================================================================
 
