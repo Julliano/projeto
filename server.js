@@ -40,7 +40,7 @@ router.use(function(req, res, next) {
     next(); //aqui é para sinalizar de que prosseguiremos para a próxima rota. E que não irá parar por aqui!!!
 });
 
-//Rota de Teste para sabermos se tudo está realmente funcionando (acessar através: GET: http://localhost:8000/api): 
+//Rota de Teste para sabermos se tudo está realmente funcionando (acessar através: GET: https://julliano-app.herokuapp.com//api): 
 router.get('/', function(req, res) {
     res.json({ message: 'Beleza! Bem vindo(a) a nossa Loja XYZ' })
 });
@@ -52,7 +52,7 @@ router.get('/', function(req, res) {
 //Rotas que terminarem com '/matriculas' (servir: GET ALL & POST)
 //router.route('/matriculas')
 
-	/* 1) Método: Selecionar Todas as Matriculas (acessar em: GET http://localhost:8000/api/matriculas)  */
+	/* 1) Método: Selecionar Todas as Matriculas (acessar em: GET https://julliano-app.herokuapp.com//api/matriculas)  */
 	router.get("/matriculas", (req, res, next) => {
 		Matricula.find()
 		.populate('aluno', 'nome')
@@ -71,7 +71,7 @@ router.get('/', function(req, res) {
 //	});
 
 	router.route('/matriculas/add')
-	/* 2) Método: Criar Matricula (acessar em: POST http://localhost:8000/api/matriculas/add)  */
+	/* 2) Método: Criar Matricula (acessar em: POST https://julliano-app.herokuapp.com//api/matriculas/add)  */
 	.post(function(req, res) {
 		var matricula = new Matricula();
 		
@@ -97,7 +97,7 @@ router.get('/', function(req, res) {
 	//Rotas que irão terminar em '/matriculas/:matricula_id' (servir tanto para: GET, PUT & DELETE: id):
     router.route('/matriculas/:matricula_id')
 	
-    /* 3) Método: Excluir por Id (acessar: http://localhost:8000/api/matriculas/:matricula_id) */
+    /* 3) Método: Excluir por Id (acessar: https://julliano-app.herokuapp.com//api/matriculas/:matricula_id) */
         .delete(function(req, res) {
             
         Matricula.remove({
@@ -113,7 +113,7 @@ router.get('/', function(req, res) {
 //Rotas que terminarem com '/cursos' (servir: GET ALL & POST)
 router.route('/cursos')
 
-    /* 1) Método: Selecionar Todos Cursos (acessar em: GET http://localhost:8000/api/cursos)  */
+    /* 1) Método: Selecionar Todos Cursos (acessar em: GET https://julliano-app.herokuapp.com//api/cursos)  */
     .get(function(req, res) {
         Curso.find(function(error, cursos) {
             if(error) 
@@ -125,7 +125,7 @@ router.route('/cursos')
 
 	
 	router.route('/cursos/add')
-	/* 2) Método: Criar Curso (acessar em: POST http://localhost:8000/api/cursos)  */
+	/* 2) Método: Criar Curso (acessar em: POST https://julliano-app.herokuapp.com//api/cursos)  */
 		.post(function(req, res) {
 			var curso = new Curso();
 			
@@ -144,7 +144,7 @@ router.route('/cursos')
     //Rotas que irão terminar em '/cursos/:curso_id' (servir tanto para: GET, PUT & DELETE: id):
     router.route('/cursos/:curso_id')
 
-    /* 3) Método: Selecionar por Id: (acessar em: GET http://localhost:8000/api/cursos/:curso_id) */
+    /* 3) Método: Selecionar por Id: (acessar em: GET https://julliano-app.herokuapp.com//api/cursos/:curso_id) */
     .get(function (req, res) {
         
         //Função para poder Selecionar um determinado curso por ID - irá verificar se caso não encontrar um detemrinado
@@ -157,7 +157,7 @@ router.route('/cursos')
         });
     })
 
-    /* 4) Método: Atualizar por Id: (acessar em: PUT http://localhost:8000/api/cursos/:curso_id) */
+    /* 4) Método: Atualizar por Id: (acessar em: PUT https://julliano-app.herokuapp.com//api/cursos/:curso_id) */
     .put(function(req, res) {
 
         //Primeiro: para atualizarmos, precisamos primeiro achar 'Id' do 'Curso':
@@ -179,7 +179,7 @@ router.route('/cursos')
             });
         })
 
-        /* 5) Método: Excluir por Id (acessar: http://localhost:8000/api/cursos/:curso_id) */
+        /* 5) Método: Excluir por Id (acessar: https://julliano-app.herokuapp.com//api/cursos/:curso_id) */
         .delete(function(req, res) {
             
             Curso.remove({
@@ -195,7 +195,7 @@ router.route('/cursos')
 //Rotas que terminarem com '/alunos' (servir: GET ALL & POST)
     router.route('/alunos')
     
-    /* 1) Método: Selecionar Todos Alunos (acessar em: GET http://localhost:8000/api/alunos)  */
+    /* 1) Método: Selecionar Todos Alunos (acessar em: GET https://julliano-app.herokuapp.com//api/alunos)  */
     .get(function(req, res) {
     	Aluno.find(function(error, alunos) {
     		if(error) 
@@ -207,7 +207,7 @@ router.route('/cursos')
     
     router.route('/alunos/add')
     
-    /* 2) Método: Criar Curso (acessar em: POST http://localhost:8000/api/alunos)  */
+    /* 2) Método: Criar Curso (acessar em: POST https://julliano-app.herokuapp.com//api/alunos)  */
     .post(function(req, res) {
     	var aluno = new Aluno();
     	
@@ -228,7 +228,7 @@ router.route('/cursos')
     //Rotas que irão terminar em '/alunos/:aluno_id' (servir tanto para: GET, PUT & DELETE: id):
     router.route('/alunos/:aluno_id')
     
-    /* 3) Método: Selecionar por Id: (acessar em: GET http://localhost:8000/api/alunos/:aluno_id) */
+    /* 3) Método: Selecionar por Id: (acessar em: GET https://julliano-app.herokuapp.com//api/alunos/:aluno_id) */
     .get(function (req, res) {
     	
     	//Função para poder Selecionar um determinado aluno por ID - irá verificar se caso não encontrar um detemrinado
@@ -241,7 +241,7 @@ router.route('/cursos')
     	});
     })
     
-    /* 4) Método: Atualizar por Id: (acessar em: PUT http://localhost:8000/api/alunos/:aluno_id) */
+    /* 4) Método: Atualizar por Id: (acessar em: PUT https://julliano-app.herokuapp.com//api/alunos/:aluno_id) */
     .put(function(req, res) {
     	
     	//Primeiro: para atualizarmos, precisamos primeiro achar 'Id' do 'Aluno':
@@ -264,7 +264,7 @@ router.route('/cursos')
     	});
     })
     
-    /* 5) Método: Excluir por Id (acessar: http://localhost:8000/api/alunos/:aluno_id) */
+    /* 5) Método: Excluir por Id (acessar: https://julliano-app.herokuapp.com//api/alunos/:aluno_id) */
     .delete(function(req, res) {
     	
     	Aluno.remove({
