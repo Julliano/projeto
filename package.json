@@ -7,6 +7,10 @@
 	"start": "node server.js",
     "dev": "nodemon"
   },
+  "engines": {
+	  "node": "8.11.1",
+	  "npm": "5.4.2"
+  },
   "dependencies": {
     "body-parser": "~1.18.1",
     "express": "~4.15.4",
