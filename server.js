@@ -279,7 +279,7 @@ router.route('/cursos')
 
 
 //Definindo um padrão das rotas prefixadas: '/api':
-app.use('/api', router);
+app.use('/', router);
 
 //Iniciando a Aplicação (servidor):
 app.listen(port);
