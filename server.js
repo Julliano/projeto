@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(cors())
 
 //Definindo a porta onde será executada a nossa api:
-var port = process.env.port || 8000;
+var port = process.env.PORT || 8000;
 //Rotas da nossa API:
 //=============================================================================
 
@@ -282,5 +282,5 @@ router.route('/cursos')
 app.use('/api', router);
 
 //Iniciando a Aplicação (servidor):
-app.listen(port || 8000);
+app.listen(port);
 console.log("Iniciando a app na porta " + port);
