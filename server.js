@@ -37,7 +37,7 @@ var router = express.Router();
 
 //Middleware para usar em todos os requests enviados para a nossa API- Mensagem Padrão:
 router.use(function(req, res, next) {
-    console.log('Algo está acontecendo aqui....');
+//    console.log('Algo está acontecendo aqui....');
     next(); //aqui é para sinalizar de que prosseguiremos para a próxima rota. E que não irá parar por aqui!!!
 });
 
@@ -51,17 +51,25 @@ router.get('/', function(req, res) {
 
 
 //Rotas que terminarem com '/matriculas' (servir: GET ALL & POST)
-router.route('/matriculas')
+//router.route('/matriculas')
 
 	/* 1) Método: Selecionar Todas as Matriculas (acessar em: GET http://localhost:8000/api/matriculas)  */
-	.get(function(req, res) {
-	    Matricula.find(function(error, matriculas) {
-	        if(error) 
-	            res.send('Erro ao tentar Selecionar Todas as matriculas...: ' + error);
-	
-	        res.json({data:matriculas});
-	    });
-	});
+	router.get("/matriculas", (req, res, next) => {
+		Matricula.find()
+		.populate('aluno', 'nome')
+		.populate('curso', 'titulo')
+		.then(matriculas => {
+			res.status(200).json({data:matriculas})
+		})
+	})
+//	.get(function(req, res) {
+//	    Matricula.find(function(error, matriculas) {
+//	        if(error) 
+//	            res.send('Erro ao tentar Selecionar Todas as matriculas...: ' + error);
+//	
+//	        res.json({data:matriculas});
+//	    });
+//	});
 
 	router.route('/matriculas/add')
 	/* 2) Método: Criar Matricula (acessar em: POST http://localhost:8000/api/matriculas/add)  */
@@ -76,7 +84,13 @@ router.route('/matriculas')
 			if(error)
 				res.send('Erro ao tentar salvar a Matricula....: ' + error);
 			
-			res.json({ message: 'Matricula Cadastrado com Sucesso!' });
+			Matricula.find({})
+				.populate('aluno')
+				.populate('curso')
+				.exec(function(error, matriculas) {
+	                console.log(JSON.stringify(matriculas, null, "\t"))
+	            })
+				res.json({ message: 'Matricula realizada com Sucesso!' });
 		});
 	})
 	
@@ -87,15 +101,15 @@ router.route('/matriculas')
     /* 3) Método: Excluir por Id (acessar: http://localhost:8000/api/matriculas/:matricula_id) */
         .delete(function(req, res) {
             
-            Matricula.remove({
-                _id: req.params.matricula_id
-                }, function(error) {
-                    if (error) 
-                        res.send("Id da matricula não encontrado....: " + error);
+        Matricula.remove({
+            _id: req.params.matricula_id
+            }, function(error) {
+                if (error) 
+                    res.send("Id da matricula não encontrado....: " + error);
 
-                    res.json({ message: 'Matricula Excluído com Sucesso!' });
-                });
+                res.json({ message: 'Matricula Excluído com Sucesso!' });
             });
+        });
 	
 //Rotas que terminarem com '/cursos' (servir: GET ALL & POST)
 router.route('/cursos')

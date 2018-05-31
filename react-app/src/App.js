@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -59,7 +58,7 @@ class App extends Component {
 	}
 
 	removeProduct = (id) => {
-		const { product } = this.state;
+//		const { product } = this.state;
 		axios.delete('http://localhost:8000/api/cursos/'+id)
 		.then(this.getProducts)
 		.catch(err => console.error(err))
@@ -84,7 +83,7 @@ class App extends Component {
 	}
 	
 	removeMatricula = (id) => {
-		const { product } = this.state;
+//		const { product } = this.state;
 		axios.delete('http://localhost:8000/api/matriculas/'+id)
 		.then(this.getMatriculas)
 		.catch(err => console.error(err))
@@ -117,7 +116,7 @@ class App extends Component {
 	}
 	
 	removeAluno = (id) => {
-		const { product } = this.state;
+//		const { product } = this.state;
 		axios.delete('http://localhost:8000/api/alunos/'+id)
 		.then(this.getAlunos)
 		.catch(err => console.error(err))
@@ -137,12 +136,6 @@ class App extends Component {
 			<button type="submit" className="btn btn-sm btn-danger" onClick={() => this.removeAluno(_id)}> Remove </button>
 		</div>
 
-	renderMatricula = ({_id, aluno, curso}) => 
-		<div key={_id}>
-			{aluno}, {curso}
-			<button type="submit" className="btn btn-sm btn-danger" onClick={() => this.removeMatricula(_id)}> Remove </button>
-		</div>
-	
 	render() {
 		const {products, alunos, product, aluno, matricula, matriculas} = this.state;
 	    return (
@@ -169,10 +162,12 @@ class App extends Component {
 
 		      <h4> Matricular aluno: </h4>
 		      <div className="form-group col-md-12 flex">
-			      <input className="form-control col-md-3" ref="alunoId" value={matricula.aluno._id} 
-			      onChange={e => this.setState({ matricula: { ...matricula, aluno: e.target.value }})}/>
-			      <input className="form-control col-md-3" ref="cursoId" value={matricula.curso_id} 
-			      onChange={e => this.setState({ matricula: { ...matricula, curso: e.target.value }})}/>
+		      	  <select onChange={e => this.setState({ matricula: { ...matricula, curso: e.target.value }})}>
+		      	  		{products.map(x => <option value={x._id} key={x._id}>{x.titulo}</option>)}
+		      	  </select>
+		      	  <select onChange={e => this.setState({ matricula: { ...matricula, aluno: e.target.value }})}>
+		      	  		{alunos.map(x => <option value={x._id} key={x._id}>{x.nome}</option>)}
+	      	  	  </select>
 			      <button type="submit" className="btn btn-primary" onClick={this.addMatricula}> Matricular </button>
 		      </div>
 	      		
@@ -183,7 +178,12 @@ class App extends Component {
 		      {alunos.map(this.renderAluno)}
 
 		      <h3> Matriculas realizadas </h3>
-		      {matriculas.map(this.renderMatricula)}
+		      { this.state.matriculas.map((matricula,i) =>
+		      <div>
+		      	{matricula.aluno.nome}, {matricula.curso.titulo}
+				<button type="submit" className="btn btn-sm btn-danger" onClick={() => this.removeMatricula(matricula._id)}> Remove </button>
+		      </div>
+		      )}
 
 	      	
 	      </div>
