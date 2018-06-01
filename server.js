@@ -61,17 +61,24 @@ router.get('/', function(req, res) {
 			res.status(200).json({data:matriculas})
 		})
 	})
-//	.get(function(req, res) {
-//	    Matricula.find(function(error, matriculas) {
-//	        if(error) 
-//	            res.send('Erro ao tentar Selecionar Todas as matriculas...: ' + error);
-//	
-//	        res.json({data:matriculas});
-//	    });
-//	});
+	
+	//Rotas que irão terminar em '/cursos/:curso_id' (servir tanto para: GET, PUT & DELETE: id):
+    router.route('/matriculas/:_id')
+
+    /* 2) Método: Selecionar por Id: (acessar em: GET https://julliano-app.herokuapp.com/api/matriculas/:_id) */
+    .get(function (req, res) {
+        //Função para poder Selecionar um determinado curso por ID - irá verificar se caso não encontrar um detemrinado
+        //curso pelo id... retorna uma mensagem de error:
+        Matricula.findById(req.params._id, function(error, matricula) {
+            if(error)
+                res.send('Id do Curso não encontrado....: ' + error);
+
+            console.log(matricula)
+        });
+    })
 
 	router.route('/matriculas/add')
-	/* 2) Método: Criar Matricula (acessar em: POST https://julliano-app.herokuapp.com//api/matriculas/add)  */
+	/* 3) Método: Criar Matricula (acessar em: POST https://julliano-app.herokuapp.com//api/matriculas/add)  */
 	.post(function(req, res) {
 		var matricula = new Matricula();
 		
@@ -97,7 +104,7 @@ router.get('/', function(req, res) {
 	//Rotas que irão terminar em '/matriculas/:matricula_id' (servir tanto para: GET, PUT & DELETE: id):
     router.route('/matriculas/:matricula_id')
 	
-    /* 3) Método: Excluir por Id (acessar: https://julliano-app.herokuapp.com//api/matriculas/:matricula_id) */
+    /* 4) Método: Excluir por Id (acessar: https://julliano-app.herokuapp.com//api/matriculas/:matricula_id) */
         .delete(function(req, res) {
             
         Matricula.remove({
@@ -182,12 +189,17 @@ router.route('/cursos')
         /* 5) Método: Excluir por Id (acessar: https://julliano-app.herokuapp.com//api/cursos/:curso_id) */
         .delete(function(req, res) {
             
-            Curso.remove({
-                _id: req.params.curso_id
-                }, function(error) {
+            Curso.remove({_id: req.params.curso_id}, function(error) {
                     if (error) 
                         res.send("Id do Curso não encontrado....: " + error);
-
+                    
+                    Matricula.remove({ curso: req.params.curso_id }, function (err) {
+                        console.log('deleting matricula');
+                        if (err)
+                            throw err;
+                        // delete project references
+                        });
+                    
                     res.json({ message: 'Curso Excluído com Sucesso!' });
                 });
             });
@@ -267,11 +279,16 @@ router.route('/cursos')
     /* 5) Método: Excluir por Id (acessar: https://julliano-app.herokuapp.com//api/alunos/:aluno_id) */
     .delete(function(req, res) {
     	
-    	Aluno.remove({
-    		_id: req.params.aluno_id
-    	}, function(error) {
+    	Aluno.remove({_id: req.params.aluno_id}, function(error) {
     		if (error) 
     			res.send("Id do Aluno não encontrado....: " + error);
+    		
+    		Matricula.remove({ aluno: req.params.aluno_id }, function (err) {
+                console.log('deleting matricula');
+                if (err)
+                    throw err;
+                // delete project references
+                });
     		
     		res.json({ message: 'Aluno Excluído com Sucesso!' });
     	});
