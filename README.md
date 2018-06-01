@@ -6,7 +6,6 @@
 - Express.Js ~ v.4.0;
 - Conceito RestFul;
 - MongoDb - [DOWNLOAD AQUI](https://www.mongodb.com/)
-- Visual Studio Code - [DOWNLOAD AQUI](https://code.visualstudio.com/)
 - Mongoose ~4.x;
 - JSON data (para retornar os dados);
 - PostMan (testar a API criada);
